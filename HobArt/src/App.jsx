@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Footer from "./components/Footer";
+import "./styles/style.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showAccessibility, setShowAccessibility] = useState(false);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <Hero />
+
+      {/* Accessibility Popup */}
+      <button
+        id="accessibilityBtn"
+        aria-label="Accessibility Help"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          zIndex: 1000,
+        }}
+        onClick={() => setShowAccessibility(!showAccessibility)}
+      >
+        ♿ Accessibility
+      </button>
+
+      {showAccessibility && (
+        <div
+          id="accessibilityContainer"
+          style={{
+            position: "fixed",
+            bottom: "60px",
+            right: "20px",
+            width: "300px",
+            height: "300px",
+            border: "1px solid #ccc",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+            zIndex: 1001,
+          }}
+        >
+          <iframe
+            src="accessibility-popup.html"
+            style={{ width: "100%", height: "100%", border: 0 }}
+            title="Accessibility Popup"
+          />
+        </div>
+      )}
+
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
