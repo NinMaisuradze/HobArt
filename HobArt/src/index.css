@@ -7,6 +7,16 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  /* Accessibility variables */
+  --text-scale: 100%;
+}
+
+.high-contrast {
+  --primary: #000000;
+  --secondary: #ffffff;
+  --header-bg: #000000;
+  filter: contrast(115%) saturate(105%);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -32,6 +42,23 @@ body {
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+}
+
+/* apply text scaling */
+html {
+  font-size: calc(16px * (var(--text-scale, 100%) / 100));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 

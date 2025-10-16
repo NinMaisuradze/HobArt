@@ -1,37 +1,88 @@
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { AccessibilityContext } from "../contexts/AccessibilityContext";
+
 export default function Header() {
+  const { textSize, setTextSize, highContrast, setHighContrast, isMuted, setIsMuted } = useContext(
+    AccessibilityContext,
+  );
+  const [shopOpen, setShopOpen] = useState(false);
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="site-header" role="banner">
-      <div className="container header-inner">
-        <a className="logo" href="/" aria-label="HobArt მთავარი">
-          <img src="/logo.jpg" alt="HobArt ლოგო" />
-        </a>
+      <div className="container header-top">
+        <div className="mobile-left">
+          <button className="mobile-toggle" aria-label="Toggle menu" onClick={() => setMobileOpen((v) => !v)}>
+            ☰
+          </button>
+          <button className="search-btn" aria-label="Search">
+            🔍
+          </button>
+        </div>
 
-        <button
-          id="navToggle"
-          aria-expanded="false"
-          aria-controls="primaryNav"
-          className="nav-toggle"
-        >
-          ☰ მენიუ
-        </button>
+        <Link className="logo" to="/" aria-label="HobArt">
+          <img src="/logo.jpg" alt="HobArt logo" />
+        </Link>
 
-        <nav
-          id="primaryNav"
-          className="primary-nav"
-          role="navigation"
-          aria-label="მთავარი ნავიგაცია"
-          aria-hidden="true"
-        >
+        <div className="header-controls">
+          <div className="accessibility-controls" role="region" aria-label="Accessibility controls">
+            <button
+              className="small-btn"
+              onClick={() => setTextSize((s) => Math.min(s + 10, 200))}
+              aria-label="Increase text size"
+              title="Increase text size"
+            >
+              A+
+            </button>
+
+            <button
+              className="small-btn"
+              onClick={() => setTextSize((s) => Math.max(s - 10, 60))}
+              aria-label="Decrease text size"
+              title="Decrease text size"
+            >
+              A-
+            </button>
+
+            <button
+              className="small-btn"
+              onClick={() => setHighContrast((v) => !v)}
+              aria-pressed={highContrast}
+              aria-label="Toggle high contrast"
+              title="Toggle high contrast"
+            >
+              {highContrast ? "🔆" : "🌙"}
+            </button>
+
+            <button
+              className="small-btn"
+              onClick={() => setIsMuted((m) => !m)}
+              aria-pressed={!isMuted}
+              aria-label={isMuted ? "Unmute site audio" : "Mute site audio"}
+              title={isMuted ? "Unmute site audio" : "Mute site audio"}
+            >
+              {isMuted ? "🔈" : "🔇"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container header-bottom">
+        <nav className={`primary-nav ${mobileOpen ? 'open' : ''}`} role="navigation" aria-label="Main navigation">
           <ul className="nav-list" role="menubar">
             <li role="none">
-              <a role="menuitem" href="/">HOME</a>
+              <Link role="menuitem" to="/">HOME</Link>
             </li>
-            <li role="none" className="has-submenu">
+
+            <li role="none" className="has-submenu" onMouseLeave={() => setShopOpen(false)}>
               <button
                 className="submenu-toggle"
                 aria-haspopup="true"
-                aria-expanded="false"
+                aria-expanded={shopOpen}
                 aria-controls="shopSubmenu"
+                onClick={() => setShopOpen((v) => !v)}
               >
                 SHOP ALL ▾
               </button>
@@ -40,17 +91,18 @@ export default function Header() {
                 className="submenu"
                 role="menu"
                 aria-label="Shop categories"
-                hidden
+                hidden={!shopOpen}
               >
-                <li><a href="New Products">New Products</a></li>
-                <li><a href="Accessories">Accessories</a></li>
-                <li><a href="Felt toys">Felt toys</a></li>
-                <li><a href="Epoxy accessories">Epoxy accessories</a></li>
+                <li role="none"><Link role="menuitem" to="/products/new-products">New Products</Link></li>
+                <li role="none"><Link role="menuitem" to="/products/accessories">Accessories</Link></li>
+                <li role="none"><Link role="menuitem" to="/products/felt-toys">Felt toys</Link></li>
+                <li role="none"><Link role="menuitem" to="/products/epoxy">Epoxy accessories</Link></li>
               </ul>
             </li>
-            <li><a href="About us">About us</a></li>
-            <li><a href="Blog">Blog</a></li>
-            <li><a href="Contact">Contact</a></li>
+
+            <li role="none"><Link to="/about">About us</Link></li>
+            <li role="none"><Link to="/blog">Blog</Link></li>
+            <li role="none"><Link to="/contact">Contact</Link></li>
           </ul>
         </nav>
       </div>

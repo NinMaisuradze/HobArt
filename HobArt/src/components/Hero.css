@@ -13,8 +13,8 @@
 }
 
 @keyframes slide {
-  0%   { background-image: url("/images/slide1.jpg"); }
-  33%  { background-image: url("/images/slide2.jpg"); }
-  66%  { background-image: url("/images/slide3.jpg"); }
-  100% { background-image: url("/images/slide1.jpg"); }
+  0%   { background-image: url("/476844663_545269585209836_6888508904361484305_n.jpg"); }
+  33%  { background-image: url("/480176641_550031271400334_6041266012107325197_n.jpg"); }
+  66%  { background-image: url("/480486467_550044434732351_1271095641513238410_n.jpg"); }
+  100% { background-image: url("/480447180_550031291400332_8704963933822586531_n.jpg"); }
 }
