@@ -1,6 +1,3 @@
-import React from "react";
-import "../styles/style.css";
-
 export default function Header() {
   return (
     <header className="site-header" role="banner">
