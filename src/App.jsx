@@ -1,29 +1,40 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AccessibilityProvider } from "./contexts/AccessibilityContext";
-
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Contact from "./components/Contact";
+import AccessibilityWidget from "./components/AccessibilityWidget";
 import SearchResults from "./pages/SearchResults";
-
+import About from "./components/About";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AccessibilityProvider, AccessibilityContext } from "./contexts/AccessibilityContext";
+import { useContext } from "react";
 import "./components/styles/style.css";
 
 function InnerApp() {
-  return (
-    <BrowserRouter>
-      <Header />
+  const { disableAccessibility } = useContext(AccessibilityContext);
 
-      <main>
+  const handleDisable = () => {
+    const confirmDisable = window.confirm("Are you sure you want to disable accessibility features?");
+    if (confirmDisable) {
+      disableAccessibility();
+      alert("Accessibility features are now disabled on this page.");
+    }
+  };
+
+  return (
+    <>
+      <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/about" element={<About />} />
         </Routes>
-      </main>
 
-      <Footer />
-    </BrowserRouter>
+        <Footer />
+      </BrowserRouter>
+    </>
   );
 }
 
