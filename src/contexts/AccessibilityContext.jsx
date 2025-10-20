@@ -1,38 +1,53 @@
-import "./Hero.css";
-import { Link } from "react-router-dom";
-import s1 from "../images/s1.jpg";
-import s2 from "../images/s2.jpg";
-import s3 from "../images/s3.jpg";
-import s4 from "../images/s4.jpg";
-import s5 from "../images/s5.jpg";
-import { useEffect, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
-function Hero() {
-  const images = [s1, s2, s3, s4, s5];  
-  const [current, setCurrent] = useState(0);
+export const AccessibilityContext = createContext(null);
+
+export function AccessibilityProvider({ children }) {
+  const [textSize, setTextSize] = useState(100);
+  const [highContrast, setHighContrast] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+
+ 
+  useEffect(() => {
+    document.documentElement.style.setProperty("--text-scale", `${textSize}%`);
+  }, [textSize]);
+
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    const className = "high-contrast";
+    document.documentElement.classList.toggle(className, highContrast);
+  }, [highContrast]);
+
+  
+  useEffect(() => {
+    const mediaElements = document.querySelectorAll("audio, video");
+    mediaElements.forEach((el) => {
+      el.muted = isMuted;
+    });
+  }, [isMuted]);
+
+  
+  function disableAccessibility() {
+    setTextSize(100);
+    setHighContrast(false);
+    setIsMuted(true);
+  }
 
   return (
-    <section className="hero" style={{ backgroundImage: `url(${images[current]})` }}>
-      <h1>Welcome to HobArt</h1>
-      <p>Discover unique handcrafted items</p>
-      <a href="#products" className="btn-primary">
-        Shop Now
-      </a>
-
-      <div style={{ marginTop: "20px", textAlign: "center" }}>
-        <Link to="/" className="btn-primary">
-          Back to Home
-        </Link>
-      </div>
-    </section>
+    <AccessibilityContext.Provider
+      value={{
+        textSize,
+        setTextSize,
+        highContrast,
+        setHighContrast,
+        isMuted,
+        setIsMuted,
+        disableAccessibility,
+      }}
+    >
+      {children}
+    </AccessibilityContext.Provider>
   );
 }
 
-export default Hero;
+export default AccessibilityProvider;
