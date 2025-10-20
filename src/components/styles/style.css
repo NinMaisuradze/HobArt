@@ -1,6 +1,6 @@
 :root {
   --site-bg: #00032c;
-  --header-bg: #ffffff;
+  --header-bg: #fff;
   --logo-color: #00032c;
   --primary: #b48b18;
   --secondary: #fff;
@@ -108,7 +108,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #00032c;
   font-family: "Playfair Display", serif;
 }
 
@@ -379,7 +379,7 @@
     bottom: 18px;
     z-index: 1400;
     margin: 0;
-    background: #ffffff;
+    background: #00032c;
     border-radius: 8px;
     padding: 6px;
   }
